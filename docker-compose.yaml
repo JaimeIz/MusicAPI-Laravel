@@ -1,0 +1,65 @@
+services:
+  musicapi:
+    build:
+      args:
+        user: musicapi
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: musicapi-app
+    container_name: musicapi-app
+    restart: unless-stopped
+    depends_on:
+      - maria_db
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - lnmp-network
+  
+  maria_db:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: unless-stopped
+
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mariadb
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - lnmp-network
+  
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    depends_on:
+      - maria_db
+    ports:
+      - "8090:80"
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - lnmp-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - lnmp-network
+  
+networks:
+  lnmp-network:
+    driver: bridge

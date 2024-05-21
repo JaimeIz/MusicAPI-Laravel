@@ -1,0 +1,10 @@
+docker-configs
+
+Dockerfile
+docker-compose.yaml
+
+vendor
+composer.lock
+
+node_modules
+package-lock.json
