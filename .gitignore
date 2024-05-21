@@ -89,11 +89,19 @@ jspm_packages/
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
-# TypeScript cache
-*.tsbuildinfo
-
-# Optional npm cache directory
-.npm
+# TypeScript cache phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    depends_on:
+      - maria_db
+    ports:
+      - "8090:80"
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - lnmp-network
 
 # Optional eslint cache
 .eslintcache

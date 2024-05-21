@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Song;
+use App\Models\song;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;

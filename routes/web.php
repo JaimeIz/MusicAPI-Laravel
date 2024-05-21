@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\HomeController;
 
@@ -20,7 +19,7 @@ Route::get('/', static function () {
     return view('auth.login');
 });
 
-Route::resource('Song', SongController::class)->middleware('auth');
+Route::resource('song', SongController::class)->middleware('auth');
 
 Auth::routes(['register' => false, 'reset' => false]);
 

@@ -6,11 +6,9 @@ services:
         uid: 1000
       context: ./
       dockerfile: Dockerfile
-    image: musicapi-app
-    container_name: musicapi-app
+    image: musicapi
+    container_name: musicapi
     restart: unless-stopped
-    depends_on:
-      - maria_db
     working_dir: /var/www/
     volumes:
       - ./:/var/www
