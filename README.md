@@ -21,7 +21,6 @@ DB_USERNAME=username
 DB_PASSWORD=passwd
 ```
 
-
 ## Usage
 
 ### Manual
@@ -30,8 +29,45 @@ DB_PASSWORD=passwd
 
 ### Docker
 
-!TODO: start app using docker
+Build docker compose
 
+```console
+$> docker compose build
+```
+
+Start docker compose
+
+```console
+$> docker compose up -d
+```
+
+Install deps
+
+```console
+$> docker compose exec musicapi composer install
+```
+
+Generate encription key for laravel
+
+Install deps
+
+```console
+$> docker compose exec musicapi php artisan key:generate
+```
+
+Initiate database
+
+```console
+$> docker compose exec musicapi php artisan migrate
+```
+
+### Create User
+
+```console
+$> docker compose exec musicapi php artisan tinker
+tinker> DB::table('users')->insert(['name'=>'username','email'=>'email@example.com','password'=>Hash::make('passwd')])
+
+```
 
 ## Refereces used
 
